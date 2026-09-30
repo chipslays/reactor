@@ -1,0 +1,41 @@
+{
+    "name": "reactor/reactor",
+    "description": "A powerful event dispatcher with middleware, listener groups, and context-based routing.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["collection", "dot-notation", "wildcard", "array"],
+    "homepage": "https://github.com/chipslays/reactor",
+    "support": {
+        "issues": "https://github.com/chipslays/reactor/issues",
+        "source": "https://github.com/chipslays/reactor"
+    },
+    "require": {
+        "php": "^8.4",
+        "collectable/collection": "^1.0"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "*",
+        "pestphp/pest": "^3.0 || ^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Reactor\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "@php vendor/bin/pest"
+    }
+}
