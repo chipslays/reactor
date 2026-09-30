@@ -1,10 +1,18 @@
-# Reactor Dispatcher
+<h1 align="center">
+  Reactor 🎯
+</h1>
 
-[![PHP Version](https://img.shields.io/badge/php-%5E8.4-8892BF.svg)](https://php.net)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)]()
+<p align="center">
+  Is a high-performance, context-driven event routing engine.
+<p>
 
-**Reactor Dispatcher** is a high-performance, context-driven event routing engine for PHP 8.4+. Designed specifically for applications that ingest semi-structured payload streams—such as Telegram/Discord/Slack bots, incoming webhook pipelines, WebSocket microservices, and event-driven backends—it replaces brittle `if/else` and `switch` statements with an expressive, Laravel-inspired routing syntax over arbitrary associative arrays and JSON payloads.
+<p align="center">
+  <a href="https://php.net"><img src="https://img.shields.io/badge/php-%5E8.4-8892BF.svg" alt="PHP Version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <img src="https://img.shields.io/badge/tests-passing-brightgreen.svg" alt="Tests">
+</p>
+
+Designed specifically for applications that ingest semi-structured payload streams—such as Telegram/Discord/Slack bots, incoming webhook pipelines, WebSocket microservices, and event-driven backends—it replaces brittle `if/else` and `switch` statements with an expressive, Laravel-inspired routing syntax over arbitrary associative arrays and JSON payloads.
 
 With Reactor, you define declarative routes with pattern matching, dot-notation lookups, regex constraints, onion-layer middleware pipelines, hierarchical nested groups, and automatic reflection-based dependency injection.
 
@@ -12,68 +20,72 @@ With Reactor, you define declarative routes with pattern matching, dot-notation 
 
 ## Table of Contents
 
-* [🎯 Use Cases & Practical Applications](#-use-cases--practical-applications)
-* [📦 Installation & Requirements](#-installation--requirements)
-* [🧠 Core Architecture](#-core-architecture)
-* [📂 Context Deep Dive](#-context-deep-dive)
-  * [Instantiation & Dot-Notation Access](#instantiation--dot-notation-access)
+* [Use Cases and Practical Applications](#use-cases-and-practical-applications)
+* [Installation and Requirements](#installation-and-requirements)
+* [Core Architecture](#core-architecture)
+* [Context Deep Dive](#context-deep-dive)
+  * [Instantiation and Dot-Notation Access](#instantiation-and-dot-notation-access)
   * [Context Comparison Helpers](#context-comparison-helpers)
-* [🔎 Condition Matching Engine](#-condition-matching-engine)
-  * [1. Strict Equality & Dot-Paths (AND Logic)](#1-strict-equality--dot-paths-and-logic)
+* [Condition Matching Engine](#condition-matching-engine)
+  * [1. Strict Equality and Dot-Paths (AND Logic)](#1-strict-equality-and-dot-paths-and-logic)
   * [2. Multiple Alternatives (OR Logic)](#2-multiple-alternatives-or-logic)
   * [3. Closure Conditions](#3-closure-conditions)
   * [4. Match-All Catch Routes](#4-match-all-catch-routes)
-  * [5. Absent Keys & Null Matching](#5-absent-keys--null-matching)
-* [💬 Route Templates & Placeholders](#-route-templates--placeholders)
+  * [5. Absent Keys and Null Matching](#5-absent-keys-and-null-matching)
+* [Route Templates and Placeholders](#route-templates-and-placeholders)
   * [Required Placeholders](#required-placeholders)
   * [Optional Placeholders](#optional-placeholders)
   * [Numeric Context Capture](#numeric-context-capture)
-  * [Case Sensitivity & `ignoreCase()`](#case-sensitivity--ignorecase)
+  * [Case Sensitivity and ignoreCase()](#case-sensitivity-and-ignorecase)
   * [Placeholder Uniqueness Constraint](#placeholder-uniqueness-constraint)
-* [🛡️ Parameter Constraints (`where`)](#-parameter-constraints-where)
+* [Parameter Constraints (where)](#parameter-constraints-where)
   * [Built-In Constraint Shortcuts](#built-in-constraint-shortcuts)
-  * [Custom Regular Expressions & Slashes](#custom-regular-expressions--slashes)
-  * [Enum Whitelists with `whereIn`](#enum-whitelists-with-wherein)
-* [⚡ Raw Regular Expressions (PCRE)](#-raw-regular-expressions-pcre)
-  * [Supported Delimiters & Flags](#supported-delimiters--flags)
+  * [Custom Regular Expressions and Slashes](#custom-regular-expressions-and-slashes)
+  * [Enum Whitelists with whereIn](#enum-whitelists-with-wherein)
+* [Raw Regular Expressions (PCRE)](#raw-regular-expressions-pcre)
+  * [Supported Delimiters and Flags](#supported-delimiters-and-flags)
   * [Escaped Delimiters Inside Patterns](#escaped-delimiters-inside-patterns)
-  * [Named vs. Positional Captures](#named-vs-positional-captures)
-* [🧩 Custom Pattern Matchers](#-custom-pattern-matchers)
-* [🎯 Handler Formats & Dependency Injection](#-handler-formats--dependency-injection)
+  * [Named vs Positional Captures](#named-vs-positional-captures)
+* [Custom Pattern Matchers](#custom-pattern-matchers)
+* [Handler Formats and Dependency Injection](#handler-formats-and-dependency-injection)
   * [Supported Handler Types](#supported-handler-types)
   * [Automatic Parameter Resolution](#automatic-parameter-resolution)
-  * [Type Casting & Overflow Protection](#type-casting--overflow-protection)
-  * [PSR-11 / Container Resolution](#psr-11--container-resolution)
-* [🧅 Middleware Pipeline](#-middleware-pipeline)
+  * [Type Casting and Overflow Protection](#type-casting-and-overflow-protection)
+  * [PSR-11 and Container Resolution](#psr-11-and-container-resolution)
+* [Middleware Pipeline](#middleware-pipeline)
   * [Pipeline Flow](#pipeline-flow)
   * [Middleware Formats](#middleware-formats)
-  * [Aliases & Parameter Injection](#aliases--parameter-injection)
+  * [Aliases and Parameter Injection](#aliases-and-parameter-injection)
   * [Variadic Middleware Parameters](#variadic-middleware-parameters)
   * [Global, Group, and Route Middleware](#global-group-and-route-middleware)
   * [Mutating Context Across Layers](#mutating-context-across-layers)
-* [🌳 Hierarchical Route Groups](#-hierarchical-route-groups)
-  * [Group Attributes & Callable-Only Form](#group-attributes--callable-only-form)
-  * [Nested Groups & Attribute Inheritance](#nested-groups--attribute-inheritance)
-  * [Adding Conditions via `scope()`](#adding-conditions-via-scope)
-  * [Lazy & Retroactive Attribute Propagation](#lazy--retroactive-attribute-propagation)
+* [Hierarchical Route Groups](#hierarchical-route-groups)
+  * [Group Attributes and Callable-Only Form](#group-attributes-and-callable-only-form)
+  * [Nested Groups and Attribute Inheritance](#nested-groups-and-attribute-inheritance)
+  * [Adding Conditions via scope()](#adding-conditions-via-scope)
+  * [Lazy and Retroactive Attribute Propagation](#lazy-and-retroactive-attribute-propagation)
   * [Exception Safety in Groups](#exception-safety-in-groups)
-* [🚦 Execution Flow & Propagation Control](#-execution-flow--propagation-control)
+* [Execution Flow and Propagation Control](#execution-flow-and-propagation-control)
   * [Priority Ordering](#priority-ordering)
-  * [Understanding Return Values: `false`, `null`, `true`, `void`](#understanding-return-values-false-null-true-void)
-  * [Halting Propagation (`stop()`)](#halting-propagation-stop)
+  * [Understanding Return Values: false, null, true, void](#understanding-return-values-false-null-true-void)
+  * [Halting Propagation with stop()](#halting-propagation-with-stop)
   * [Fallback Handler](#fallback-handler)
-* [⚙️ Dispatch Modes: `dispatch()` vs `run()`](#-dispatch-modes-dispatch-vs-run)
-  * [Direct Payload Dispatching](#1-direct-payload-dispatching)
-  * [Pre-Bound Context with `run()`](#2-pre-bound-context-with-run)
-  * [Inspecting Context with `context()`](#3-inspecting-context-with-context)
-  * [Direct Listener Registration with `add()`](#4-direct-listener-registration-with-add)
-* [📚 Complete API Reference](#-complete-api-reference)
-* [🧪 Running Tests](#-running-tests)
-* [📄 License](#-license)
+* [Dispatch Modes: dispatch() vs run()](#dispatch-modes-dispatch-vs-run)
+  * [1. Direct Payload Dispatching](#1-direct-payload-dispatching)
+  * [2. Pre-Bound Context with run()](#2-pre-bound-context-with-run)
+  * [3. Inspecting Context with context()](#3-inspecting-context-with-context)
+  * [4. Direct Listener Registration with add()](#4-direct-listener-registration-with-add)
+* [Complete API Reference](#complete-api-reference)
+  * [Reactor\Context](#reactorcontext)
+  * [Reactor\Dispatcher](#reactordispatcher)
+  * [Reactor\Listener](#reactorlistener)
+  * [Reactor\Group](#reactorgroup)
+* [Running Tests](#running-tests)
+* [License](#license)
 
 ---
 
-## 🎯 Use Cases & Practical Applications
+## Use Cases and Practical Applications
 
 * **Telegram, Discord & Slack Bots:** Cleanly route incoming messages, button callbacks (`callback_query.data`), inline queries, and multi-step conversation states based on nested JSON keys without nested `if/switch` blocks.
 * **Webhook Ingestion Gateways:** Ingest webhooks from Stripe, GitHub, Shopify, or PayPal, routing events directly to specialized controllers based on payload fields like `event.type`, `action`, or `status`.
@@ -83,7 +95,7 @@ With Reactor, you define declarative routes with pattern matching, dot-notation 
 
 ---
 
-## 📦 Installation & Requirements
+## Installation and Requirements
 
 * **PHP:** `8.4` or higher
 * **Dependencies:** `collectable/collection: ^1.0`
@@ -96,7 +108,7 @@ composer require reactor/reactor
 
 ---
 
-## 🧠 Core Architecture
+## Core Architecture
 
 Reactor is built around four decoupled, highly cohesive classes:
 
@@ -107,11 +119,11 @@ Reactor is built around four decoupled, highly cohesive classes:
 
 ---
 
-## 📂 Context Deep Dive
+## Context Deep Dive
 
 The `Context` object encapsulates the raw event payload. Because it inherits from `Collectable\Collection`, it includes a comprehensive set of array manipulation and lookup methods.
 
-### Instantiation & Dot-Notation Access
+### Instantiation and Dot-Notation Access
 
 ```php
 use Reactor\Context;
@@ -173,11 +185,11 @@ $ctx->isFalse('message.chat.title');      // false (null is not false)
 
 ---
 
-## 🔎 Condition Matching Engine
+## Condition Matching Engine
 
 The Dispatcher checks incoming events against conditions attached to each listener. A condition can be an associative array, a list of arrays (disjunction), a Closure, or a template.
 
-### 1. Strict Equality & Dot-Paths (AND Logic)
+### 1. Strict Equality and Dot-Paths (AND Logic)
 
 When you pass an associative array, **every** path must match the expected value (logical `AND`):
 
@@ -237,7 +249,7 @@ $dispatcher->on([], function (Context $ctx) {
 });
 ```
 
-### 5. Absent Keys & Null Matching
+### 5. Absent Keys and Null Matching
 
 If a dot-path does not exist in the context, `Context::get()` returns `null`. Therefore:
 
@@ -249,7 +261,7 @@ $dispatcher->on(['message.edit_date' => null], function () {
 
 ---
 
-## 💬 Route Templates & Placeholders
+## Route Templates and Placeholders
 
 Route templates extract parameters directly from string values in the context using `{placeholder}` notation. By default, a placeholder matches any continuous sequence of non-whitespace characters (`\S+`).
 
@@ -293,7 +305,7 @@ $dispatcher->dispatch(['user' => ['id' => 9912]]);
 // Output: Captured user ID: 9912
 ```
 
-### Case Sensitivity & `ignoreCase()`
+### Case Sensitivity and ignoreCase()
 
 By default, template literals are case-sensitive. You can enable case-insensitive matching by calling `->ignoreCase()` on the listener:
 
@@ -319,7 +331,7 @@ $dispatcher->on(['cmd' => 'compare {id} {id}'], fn() => '...');
 
 ---
 
-## 🛡️ Parameter Constraints (`where`)
+## Parameter Constraints (where)
 
 You can constrain placeholders using regular expressions. If a placeholder fails its constraint, the route match fails and the dispatcher proceeds to subsequent listeners.
 
@@ -340,7 +352,7 @@ $dispatcher->on(['cmd' => 'user {id} {tag} {code}'], $handler)
     ->whereAlphaNumeric('code');     // code must be alphanumeric
 ```
 
-### Custom Regular Expressions & Slashes
+### Custom Regular Expressions and Slashes
 
 Pass custom regex strings without enclosing delimiters. Reactor automatically handles internal slashes so they never prematurely terminate compiled patterns:
 
@@ -358,7 +370,7 @@ $listener->where([
 ]);
 ```
 
-### Enum Whitelists with `whereIn`
+### Enum Whitelists with whereIn
 
 `whereIn()` automatically escapes all values and builds an alternation regex:
 
@@ -372,11 +384,11 @@ $dispatcher->on(['text' => 'locale {lang}'], function (string $lang) {
 
 ---
 
-## ⚡ Raw Regular Expressions (PCRE)
+## Raw Regular Expressions (PCRE)
 
 When you need complete control over pattern matching, pass a raw regular expression directly as the condition value.
 
-### Supported Delimiters & Flags
+### Supported Delimiters and Flags
 
 Reactor automatically recognizes raw regexes enclosed in any of these five standard delimiters: `/`, `~`, `#`, `%`, or `@`:
 
@@ -408,7 +420,7 @@ $dispatcher->on(['tag'  => '~^x\~y$~'], fn() => 'Matched tilde delimiter');
 
 Strings that look like malformed delimiters (e.g. `///` or `##`) are treated as literal strings, preventing unwanted regex compilation errors.
 
-### Named vs. Positional Captures
+### Named vs Positional Captures
 
 * **Named Captures:** If named capture groups (`(?P<name>...)` or `(?<name>...)`) are present, they are extracted and mapped to handler parameters matching their names. Unnamed captures in the same expression are ignored.
 * **Positional Captures:** If **only** unnamed capture groups are present, they are injected into handler parameters by position (`$1`, `$2`, etc.).
@@ -428,7 +440,7 @@ $dispatcher->on(['ref' => '/^ref_(?P<campaign>\w+)_(?P<affiliate>\d+)$/'], funct
 
 ---
 
-## 🧩 Custom Pattern Matchers
+## Custom Pattern Matchers
 
 You can extend Reactor's matching engine by registering custom matchers with `$dispatcher->matcher()`.
 
@@ -468,7 +480,7 @@ $dispatcher->on(['text' => 'starts_with:/admin_'], function (string $matched_str
 
 ---
 
-## 🎯 Handler Formats & Dependency Injection
+## Handler Formats and Dependency Injection
 
 ### Supported Handler Types
 
@@ -511,7 +523,7 @@ $dispatcher->on(['cmd' => 'greet {name} {greeting?}'], function (Context $ctx, s
 });
 ```
 
-### Type Casting & Overflow Protection
+### Type Casting and Overflow Protection
 
 Extracted strings are automatically cast to scalar types matching your parameter type-hints:
 
@@ -521,7 +533,7 @@ Extracted strings are automatically cast to scalar types matching your parameter
 * **`bool`**: String values `"true"`, `"1"` become `true`; `"false"`, `"0"` become `false`.
 * **Union Types:** E.g. `int|float` resolves to the most accurate scalar representation. If `string` or `mixed` is part of the union (e.g. `string|int`), the value remains a `string` to prevent unwanted mutation.
 
-### PSR-11 / Container Resolution
+### PSR-11 and Container Resolution
 
 By default, handler and middleware classes are created via `new $class()`. You can wire up your PSR-11 dependency injection container (PHP-DI, Laravel Container, Symfony DI) using `resolver()`:
 
@@ -539,7 +551,7 @@ Now any class registered by name (`UserController@show`, `[OrderController::clas
 
 ---
 
-## 🧅 Middleware Pipeline
+## Middleware Pipeline
 
 Reactor implements an onion-architecture middleware pipeline. Middleware can inspect the payload, mutate the `Context`, verify permissions, rate-limit, or abort execution.
 
@@ -606,7 +618,7 @@ class VerifySignature
 }
 ```
 
-### Aliases & Parameter Injection
+### Aliases and Parameter Injection
 
 Register aliases using `$dispatcher->alias()`. Parameters can be passed after a colon `:` separated by commas `,`:
 
@@ -675,11 +687,11 @@ $dispatcher->middleware(function (Context $ctx, Closure $next) {
 
 ---
 
-## 🌳 Hierarchical Route Groups
+## Hierarchical Route Groups
 
 Route groups bundle shared conditions, middleware, and base priority settings across multiple listeners.
 
-### Group Attributes & Callable-Only Form
+### Group Attributes and Callable-Only Form
 
 You can create groups with an attribute array or using the callable-only shorthand:
 
@@ -699,7 +711,7 @@ $group = $dispatcher->group(function (\Reactor\Group $group) {
 });
 ```
 
-### Nested Groups & Attribute Inheritance
+### Nested Groups and Attribute Inheritance
 
 Groups can be nested indefinitely. Attributes accumulate down the hierarchy:
 
@@ -720,7 +732,7 @@ $dispatcher->group(['conditions' => ['module' => 'billing']], function ($billing
 * **Middleware:** Parent group middleware executes before child group middleware.
 * **Priority:** Nested listeners inherit their parent group's priority unless explicitly overridden.
 
-### Adding Conditions via `scope()`
+### Adding Conditions via scope()
 
 You can fluently add additional condition scopes to a group at any time using `$group->scope()`:
 
@@ -734,7 +746,7 @@ $group->scope(['chat.type' => 'private']);
 $group->scope(fn(Context $ctx) => $ctx->has('user.id'));
 ```
 
-### Lazy & Retroactive Attribute Propagation
+### Lazy and Retroactive Attribute Propagation
 
 Groups maintain live references to registered listeners. Adding middleware or adjusting priorities on a group *after* defining routes updates all registered listeners retroactively:
 
@@ -765,7 +777,7 @@ $dispatcher->on(['cmd' => 'health'], fn() => 'Healthy');
 
 ---
 
-## 🚦 Execution Flow & Propagation Control
+## Execution Flow and Propagation Control
 
 ### Priority Ordering
 
@@ -784,7 +796,7 @@ $dispatcher->on([], fn() => 'Default catch-all')
     ->priority(-100);
 ```
 
-### Understanding Return Values: `false`, `null`, `true`, `void`
+### Understanding Return Values: false, null, true, void
 
 In Reactor, return values control whether the event is considered **handled**:
 
@@ -819,7 +831,7 @@ $dispatcher->on(['type' => 'order'], function (Context $ctx) {
 })->priority(10);
 ```
 
-### Halting Propagation (`stop()`)
+### Halting Propagation with stop()
 
 If you want a listener to reject an event or return `false`, but **prohibit** any further listeners or fallback from running, call `->stop()` on the listener:
 
@@ -848,7 +860,7 @@ $dispatcher->fallback(function (Context $ctx) {
 
 ---
 
-## ⚙️ Dispatch Modes: `dispatch()` vs `run()`
+## Dispatch Modes: dispatch() vs run()
 
 ### 1. Direct Payload Dispatching
 
@@ -861,7 +873,7 @@ $dispatcher->on(['type' => 'alert'], fn() => 'Alert acknowledged');
 $result = $dispatcher->dispatch($_POST);
 ```
 
-### 2. Pre-Bound Context with `run()`
+### 2. Pre-Bound Context with run()
 
 Bind the context during instantiation or bootstrap, and execute via `run()`:
 
@@ -875,7 +887,7 @@ $result = $dispatcher->run();
 
 > **Inline Override:** If you pass data to `dispatch($inlineData)` on a dispatcher that already has bound context, the inline data is processed for that single call without overwriting the stored bound context.
 
-### 3. Inspecting Context with `context()`
+### 3. Inspecting Context with context()
 
 You can retrieve the currently bound `Context` instance using `$dispatcher->context()`:
 
@@ -884,7 +896,7 @@ $dispatcher = new Dispatcher(['app' => 'v1']);
 $currentContext = $dispatcher->context(); // Instance of Reactor\Context
 ```
 
-### 4. Direct Listener Registration with `add()`
+### 4. Direct Listener Registration with add()
 
 You can instantiate `Listener` objects independently and register them via `$dispatcher->add()`:
 
@@ -897,9 +909,9 @@ $dispatcher->add($listener);
 
 ---
 
-## 📚 Complete API Reference
+## Complete API Reference
 
-### `Reactor\Context`
+### Reactor\Context
 Extends `Collectable\Collection`.
 
 | Method | Return Type | Description |
@@ -914,7 +926,7 @@ Extends `Collectable\Collection`.
 | `only(array $keys)` | `array` | Extracts only the specified keys. |
 | `except(array $keys)` | `array` | Returns all data except the specified keys. |
 
-### `Reactor\Dispatcher`
+### Reactor\Dispatcher
 
 | Method | Return Type | Description |
 |---|---|---|
@@ -932,7 +944,7 @@ Extends `Collectable\Collection`.
 | `dispatch(array\|Context\|null $data = null)` | `mixed` | Runs the pipeline against the given context. |
 | `run()` | `mixed` | Alias for `dispatch()` using bound context. |
 
-### `Reactor\Listener`
+### Reactor\Listener
 
 | Method | Return Type | Description |
 |---|---|---|
@@ -952,7 +964,7 @@ Extends `Collectable\Collection`.
 | `isIgnoreCase()` | `bool` | Checks whether template matching is case-insensitive. |
 | `isStopped()` | `bool` | Checks whether propagation is stopped. |
 
-### `Reactor\Group`
+### Reactor\Group
 
 | Method | Return Type | Description |
 |---|---|---|
@@ -966,7 +978,7 @@ Extends `Collectable\Collection`.
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 Reactor is thoroughly tested with [Pest PHP](https://pestphp.com). Run the test suite via Composer:
 
@@ -976,6 +988,6 @@ composer test
 
 ---
 
-## 📄 License
+## License
 
 Reactor Dispatcher is open-sourced software licensed under the [MIT License](LICENSE).
