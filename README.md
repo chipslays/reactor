@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/tests-passing-brightgreen.svg" alt="Tests">
 </p>
 
-Designed specifically for applications that ingest semi-structured payload streams—such as Telegram/Discord/Slack bots, incoming webhook pipelines, WebSocket microservices, and event-driven backends—it replaces brittle `if/else` and `switch` statements with an expressive, Laravel-inspired routing syntax over arbitrary associative arrays and JSON payloads.
+Designed specifically for applications that ingest semi-structured payload streams-such as Telegram/Discord/Slack bots, incoming webhook pipelines, WebSocket microservices, and event-driven backends-it replaces brittle `if/else` and `switch` statements with an expressive, Laravel-inspired routing syntax over arbitrary associative arrays and JSON payloads.
 
 With Reactor, you define declarative routes with pattern matching, dot-notation lookups, regex constraints, onion-layer middleware pipelines, hierarchical nested groups, and automatic reflection-based dependency injection.
 
@@ -801,8 +801,8 @@ $dispatcher->on([], fn() => 'Default catch-all')
 In Reactor, return values control whether the event is considered **handled**:
 
 > **The Golden Rule:**
-> * **`return false`** means: *"The event is NOT handled — pass control to the next matching listener."*
-> * **Any other value (`true`, `null`, `0`, `""`, `[]`, objects, or NO return statement at all)** means: *"The event is SUCCESSFULLY handled — stop the chain and return this result."*
+> * **`return false`** means: *"The event is NOT handled - pass control to the next matching listener."*
+> * **Any other value (`true`, `null`, `0`, `""`, `[]`, objects, or NO return statement at all)** means: *"The event is SUCCESSFULLY handled - stop the chain and return this result."*
 
 #### Do you need to return anything in your handlers?
 **No!** If your handler just performs an action (e.g., sends a message or writes to a database) without an explicit `return` statement:
