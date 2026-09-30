@@ -98,7 +98,7 @@ With Reactor, you define declarative routes with pattern matching, dot-notation 
 ## Installation and Requirements
 
 * **PHP:** `8.4` or higher
-* **Dependencies:** `collectable/collection: ^1.0`
+* **Dependencies:** [collectable/collection](https://github.com/chipslays/collectable)
 
 Install via Composer:
 
@@ -121,7 +121,7 @@ Reactor is built around four decoupled, highly cohesive classes:
 
 ## Context Deep Dive
 
-The `Context` object encapsulates the raw event payload. Because it inherits from `Collectable\Collection`, it includes a comprehensive set of array manipulation and lookup methods.
+The `Context` object encapsulates the raw event payload. Because it inherits from [`Collectable\Collection`](https://github.com/chipslays/collectable), it includes a comprehensive set of array manipulation and lookup methods.
 
 ### Instantiation and Dot-Notation Access
 
@@ -510,7 +510,7 @@ $dispatcher->on(['action' => 'version'], [SystemInfo::class, 'version']);
 
 Handler parameters are resolved via PHP Reflection:
 
-1. **`Context` Injection:** Any parameter type-hinted as `Context`, its parent `Collectable\Collection`, or a child class receives the current `Context` instance. It can be placed at any position in the parameter list.
+1. **`Context` Injection:** Any parameter type-hinted as `Context`, its parent [`Collectable\Collection`](https://github.com/chipslays/collectable), or a child class receives the current `Context` instance. It can be placed at any position in the parameter list.
 2. **Named Argument Mapping:** Placeholders and named regex groups are matched directly to parameter names (e.g. `{username}` binds to `$username`).
 3. **Positional Arguments:** If no named parameters match, captured parameters are mapped by position.
 4. **Default Values & Nullability:** Missing arguments fall back to their PHP default value. If untyped or nullable without a default, `null` is injected.
@@ -912,7 +912,7 @@ $dispatcher->add($listener);
 ## Complete API Reference
 
 ### Reactor\Context
-Extends `Collectable\Collection`.
+Extends [`Collectable\Collection`](https://github.com/chipslays/collectable).
 
 | Method | Return Type | Description |
 |---|---|---|
