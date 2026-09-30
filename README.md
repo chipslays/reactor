@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-  Is a high-performance, context-driven event routing engine.
+  A high-performance, context-driven event routing engine.
 <p>
 
 <p align="center">
