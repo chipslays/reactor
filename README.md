@@ -916,15 +916,10 @@ Extends [`Collectable\Collection`](https://github.com/chipslays/collectable).
 
 | Method | Return Type | Description |
 |---|---|---|
-| `__construct(array $items = [])` | `void` | Initializes context with raw data. |
 | `is(string $path, mixed $value)` | `bool` | Strict equality check (`$ctx->get($path) === $value`). |
 | `isTrue(string $path)` | `bool` | Checks if path is strictly `true` (`=== true`). |
 | `isFalse(string $path)` | `bool` | Checks if path is strictly `false` (`=== false`). |
-| `get(string $key, mixed $default = null)` | `mixed` | Retrieves value by dot-notation path. |
-| `has(string $key)` | `bool` | Checks if dot path exists in context. |
-| `all()` | `array` | Returns all raw items as an array. |
-| `only(array $keys)` | `array` | Extracts only the specified keys. |
-| `except(array $keys)` | `array` | Returns all data except the specified keys. |
+| `...` | `...` | See more methods here -> [`Collectable\Collection`](https://github.com/chipslays/collectable) |
 
 ### Reactor\Dispatcher
 
