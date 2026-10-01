@@ -271,6 +271,8 @@ $ctx->isFalse('message.from.is_bot');     // true
 $ctx->isFalse('message.chat.title');      // false (null is not false)
 ```
 
+See more methods here -> [`Collectable\Collection`](https://github.com/chipslays/collectable)
+
 ---
 
 ## Condition Matching Engine
