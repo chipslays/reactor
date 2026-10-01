@@ -93,6 +93,94 @@ With Reactor, you define declarative routes with pattern matching, dot-notation 
 * **JSON-RPC & Microservice Routers:** Route internal RPC requests based on body fields (`method`, `params.action`, `version`) rather than relying on HTTP URIs.
 * **State Machine & Workflow Routing:** Inspect context state flags and execute transition handlers when matching specific state configurations.
 
+### 1. Telegram, Discord & Slack Bots
+Cleanly route incoming messages and button callbacks without nested `if/switch` blocks.
+
+```php
+// Route a specific admin command in a supergroup
+$dispatcher->on([
+    'message.chat.type' => 'supergroup',
+    'message.text'      => '/ban {username}'
+], function (string $username, Context $ctx) {
+    $chatId = $ctx->get('message.chat.id');
+
+    // Execute the business logic (no return needed)
+    TelegramApi::kickChatMember($chatId, $username);
+    Logger::info("User @{$username} was banned in chat {$chatId}");
+});
+```
+
+### 2. Webhook Ingestion Gateways
+Ingest webhooks from third-party services and route them directly to specialized logic based on payload fields.
+
+```php
+// Handle a successful payment event from a Stripe webhook
+$dispatcher->on([
+    'type'               => 'payment_intent.succeeded',
+    'data.object.status' => 'succeeded'
+], function (Context $ctx) {
+    $customerId = $ctx->get('data.object.customer');
+    $amount = $ctx->get('data.object.amount');
+
+    // Update the database and fulfill the order
+    OrderService::markAsPaid($customerId, $amount);
+    EmailService::sendReceipt($customerId);
+});
+```
+
+### 3. Event-Driven Architectures & CQRS
+Dispatch internal domain events and async message-bus envelopes (e.g., from RabbitMQ or Kafka) by inspecting envelope metadata.
+
+```php
+// Route an incoming event from a message broker
+$dispatcher->on([
+    'headers.event_name' => 'UserRegistered',
+    'headers.version'    => 'v2'
+], function (Context $ctx) {
+    $userId = $ctx->get('payload.user_id');
+
+    // Trigger background jobs or projections
+    WelcomeEmailJob::dispatch($userId);
+    Metrics::increment('user_registrations');
+});
+```
+
+### 4. JSON-RPC & Microservice Routers
+Route internal RPC requests based on body fields rather than relying on HTTP URIs.
+
+```php
+// Handle a specific JSON-RPC method call
+$dispatcher->on([
+    'jsonrpc' => '2.0',
+    'method'  => 'system.sync_data'
+], function (Context $ctx) {
+    $requestId = $ctx->get('id');
+    $force = $ctx->isTrue('params.force_sync');
+
+    // Perform the requested operation and emit the response
+    $result = SyncManager::run($force);
+    RpcServer::sendResponse($requestId, $result);
+});
+```
+
+### 5. State Machine & Workflow Routing
+Inspect context state flags and execute transition handlers when matching specific configurations.
+
+```php
+// Handle an entity state transition request
+$dispatcher->on([
+    'entity_type'   => 'order',
+    'current_state' => 'processing',
+    'event'         => 'ship_items'
+], function (Context $ctx) {
+    $orderId = $ctx->get('order_id');
+
+    // Transition the state and notify the customer
+    Database::table('orders')->where('id', $orderId)->update(['state' => 'shipped']);
+    PushNotification::send($orderId, 'Your order is on the way!');
+});
+```
+
 ---
 
 ## Installation and Requirements
