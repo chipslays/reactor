@@ -100,7 +100,7 @@ Cleanly route incoming messages and button callbacks without nested `if/switch` 
 // Route a specific admin command in a supergroup
 $dispatcher->on([
     'message.chat.type' => 'supergroup',
-    'message.text'      => '/ban {username}'
+    'message.text' => '/ban {username}'
 ], function (string $username, Context $ctx) {
     $chatId = $ctx->get('message.chat.id');
 
@@ -116,7 +116,7 @@ Ingest webhooks from third-party services and route them directly to specialized
 ```php
 // Handle a successful payment event from a Stripe webhook
 $dispatcher->on([
-    'type'               => 'payment_intent.succeeded',
+    'type' => 'payment_intent.succeeded',
     'data.object.status' => 'succeeded'
 ], function (Context $ctx) {
     $customerId = $ctx->get('data.object.customer');
@@ -135,7 +135,7 @@ Dispatch internal domain events and async message-bus envelopes (e.g., from Rabb
 // Route an incoming event from a message broker
 $dispatcher->on([
     'headers.event_name' => 'UserRegistered',
-    'headers.version'    => 'v2'
+    'headers.version' => 'v2'
 ], function (Context $ctx) {
     $userId = $ctx->get('payload.user_id');
 
@@ -152,7 +152,7 @@ Route internal RPC requests based on body fields rather than relying on HTTP URI
 // Handle a specific JSON-RPC method call
 $dispatcher->on([
     'jsonrpc' => '2.0',
-    'method'  => 'system.sync_data'
+    'method' => 'system.sync_data'
 ], function (Context $ctx) {
     $requestId = $ctx->get('id');
     $force = $ctx->isTrue('params.force_sync');
@@ -169,9 +169,9 @@ Inspect context state flags and execute transition handlers when matching specif
 ```php
 // Handle an entity state transition request
 $dispatcher->on([
-    'entity_type'   => 'order',
+    'entity_type' => 'order',
     'current_state' => 'processing',
-    'event'         => 'ship_items'
+    'event' => 'ship_items'
 ], function (Context $ctx) {
     $orderId = $ctx->get('order_id');
 
